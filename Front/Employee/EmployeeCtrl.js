@@ -14,7 +14,7 @@
    var address = "http://localhost:61148/Employee/";
    var getFromUrl = address + "all";
    var postToUrl = address + "add";
-   //var deleteToUrl = address + "delete/"+id;
+  //  var deleteToUrl = address + "delete/"+id;
 
    this.getData = function(){
      return $http.get(getFromUrl);
@@ -22,9 +22,9 @@
    this.postData = function(value){
      return $http.post(postToUrl,value);
    }
-   // this.delete = function(id){
-   //   return $http.delete(deleteToUrl,id);
-   // }
+  //  this.deleteData = function(id){
+  //    return $http.delete(deleteToUrl,id);
+  //  }
  });
 
 
@@ -69,9 +69,14 @@
            }
          }
 
-         // Usuwanie z bazy
-         // $scope.del = function(){
-         //     console.log("próba usunięcia");
-            
-         // }
+        //  Usuwanie z bazy
+        //  $scope.delete = function(){
+        //      console.log("próba usunięcia");
+        //     var serviceDelete = EmployeeService.deleteData($scope.id)
+        //     serviceDelete.then(function(){
+        //       console.log("usuniecie z bazy");
+        //     },function(error){
+        //       $log.error("nie udalo sie")
+        //     })
+        //  }
  }]);
