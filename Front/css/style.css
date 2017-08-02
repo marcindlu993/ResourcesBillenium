@@ -1,0 +1,16 @@
+.center-block{
+        float: none;
+    }
+    .btn-primary{
+        background-color: #ff6c00;
+        border-color: #ee5b00;
+    }
+    .btn-primary:hover{
+        background-color: #ee5b00;
+        border-color: #ee5b00;
+    }
+    .btn-primary:click{
+        background-color: #ee5b00;
+        border-color: #ee5b00;
+    }
+    

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl_PL">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Management</title> 
+    <!-- CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/componentHeader.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="myApp">
+    <div class="container">
+        <div ng-include="'header.html'" class="hidden-xs"></div>
+        <div ng-include="'navbar.html'"></div>
+        <div ng-view></div>
+    </div>
+    
+    <!-- jQuery, Angular, Angular-route, Bootstrap -->
+        <script src="node_modules/angular/angular.min.js"></script>
+        <script src="node_modules/angular-route/angular-route.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>    
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Pliki js związane z tą aplikacją -->
+        <script src="app.js"></script>
+        <script src="signIn/signInCtrl.js"></script>
+        <script src="Employee/EmployeeCtrl.js"></script>
+        <script src="Management/ManagementCtrl.js"></script>
+        <script src="Project/ProjectCtrl.js"></script>
+        <script src="Timesheet/TimesheetCtrl.js"></script>
+        <script src="TimesheetPerProject/TimesheetPerProjectCtrl.js"></script>
+        <script src="Users/UsersCtrl.js"></script>
+</body>
+</html>
