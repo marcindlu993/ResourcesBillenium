@@ -14,7 +14,7 @@ app.service("EmployeeService", function ($http) {
   var address = "http://localhost:61148/Employee/";
   var getFromUrl = address + "all";
   var postToUrl = address + "add";
-  var deleteToUrl = address + "delete/";//+id;
+  var deleteToUrl = address + "delete/";
 
   this.getData = function () {
     return $http.get(getFromUrl);
@@ -23,7 +23,7 @@ app.service("EmployeeService", function ($http) {
     return $http.post(postToUrl, value);
   }
   this.deleteData = function (id) {
-    return $http.delete(deleteToUrl, id);
+    return $http.delete(deleteToUrl + id);
   }
 });
 
@@ -61,8 +61,8 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', function
       }
       var serviceAdd = EmployeeService.postData(product);
       serviceAdd.then(function () {
+        getAll();
         console.log("dodawanie do bazy");
-        $route.reload();
       }, function (error) {
         $log.error("nie udało się")
       })
@@ -70,10 +70,11 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', function
   }
 
   //  Usuwanie z bazy
-  $scope.delete = function () {
+  $scope.delete = function (id) {
     console.log("próba usunięcia");
-    var serviceDelete = EmployeeService.deleteData($scope.id);
+    var serviceDelete = EmployeeService.deleteData(id);
     serviceDelete.then(function () {
+      getAll();
       console.log("usuniecie z bazy");
     }, function (error) {
       $log.error("nie udalo sie")

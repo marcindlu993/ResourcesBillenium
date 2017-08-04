@@ -10,10 +10,10 @@ app.config(['$routeProvider', function($routeProvider){
 }])
 
 app.service("ProjectService", function($http){
-  var address = "http://10.24.14.213:61148/Project/";
+  var address = "http://localhost:61148/Project/";
   var getFromUrl = address + "all";
   var postToUrl = address + "add";
-  //var deleteToUrl = address + "delete/"+id;
+  var deleteToUrl = address + "delete/";
 
   this.getData = function(){
     return $http.get(getFromUrl);
@@ -21,9 +21,9 @@ app.service("ProjectService", function($http){
   this.postData = function(value){
     return $http.post(postToUrl,value);
   }
-  // this.delete = function(id){
-  //   return $http.delete(deleteToUrl,id);
-  // }
+  this.deleteData = function(id){
+    return $http.delete(deleteToUrl + id);
+  }
 });
 
 app.controller('ProjectCtrl', ['$scope', 'ProjectService', '$filter', function($scope, ProjectService) {
@@ -55,6 +55,7 @@ app.controller('ProjectCtrl', ['$scope', 'ProjectService', '$filter', function($
             }
             var serviceAdd = ProjectService.postData(product);
             serviceAdd.then(function(){
+                getAll();
                 console.log("dodawanie do bazy");
             },function(error){
               $log.error("nie udało się")
@@ -63,8 +64,14 @@ app.controller('ProjectCtrl', ['$scope', 'ProjectService', '$filter', function($
         }
 
         // Usuwanie z bazy
-        // $scope.del = function(){
-        //     console.log("próba usunięcia");
-            
-        // }
+        $scope.delete = function(id) {
+          console.log("póba usunięcia");
+          var serviceDelete = ProjectService.deleteData(id);
+          serviceDelete.then(function () { 
+            getAll();
+            console.log("usunięcie z bazy");
+          }, function (error) {
+            $log.error("nie udało się");
+          })
+        }
 }]);

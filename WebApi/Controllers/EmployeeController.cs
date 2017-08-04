@@ -57,9 +57,9 @@ namespace WebApi.Controllers
         }
 
         // ------------------------- DELETE -------------------------
-//        [Authorize(Roles = "Admin")]
+        //        [Authorize(Roles = "Admin")]
         [Route("delete/{id}")]
-        [AcceptVerbs("DELETE")]
+        [AcceptVerbs("DELETE","GET")]
         public void Delete([FromUri]int id)
         {
             EmployeeDTO employeeDTO = new EmployeeDTO

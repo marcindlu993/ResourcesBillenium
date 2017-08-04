@@ -14,3 +14,6 @@
         border-color: #ee5b00;
     }
     
+.dragdrop-container{
+    border: 1px solid #909090;
+}

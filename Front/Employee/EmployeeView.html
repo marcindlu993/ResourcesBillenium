@@ -12,7 +12,7 @@
             </div>
             <div class="col-sm-2 col-xs-7">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add record</button>
+                <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add employee</button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -52,7 +52,7 @@
                 <td>{{employe.Platform}}</td>
                 <td>{{employe.Position}}</td>
                 <td>{{employe.FTE}}</td>
-                <td><button ng-click="delete($index)" class="btn btn-danger btn-xs">&times;</button></td>
+                <td><button ng-click="delete(employe.Id);" class="btn btn-danger btn-xs">&times;</button></td>
             </tr>
         </tbody>
     </table>
