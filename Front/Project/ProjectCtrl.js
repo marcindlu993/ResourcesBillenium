@@ -63,6 +63,7 @@ app.controller('ProjectCtrl', ['$scope', 'ProjectService', '$filter', function($
           }
         }
 
+        //zrobić update projektu
         // Usuwanie z bazy
         $scope.delete = function(id) {
           console.log("póba usunięcia");

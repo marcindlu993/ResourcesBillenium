@@ -4,37 +4,82 @@
             <div class="col-sm-3 col-xs-5">
                 <span style="text-align:center; font-size: 30px;">Management</span>
             </div>
-            <div class="col-sm-5 hidden-xs">
-                <div class="input-group">
-                    <span class="input-group-addon">Search:</span>
-                    <input type="text" class="form-control" placeholder="What are you search?" ng-model="search">
-                </div>
-            </div>
-            <div class="table-responsive col-sm-10 center-block col-xs-12">
+            <div class="table-responsive col-sm-12 center-block col-xs-12">
                 <form>
-                    <div class="col-xs-3">
-                    <label for="projectSelect">Select project"</label>
-                    <select name="projectSelect" id="projectSelect" ng-model="projects.model">
-                        <option ng-repeat="project in projects" value="{{project.Id}}">{{project.Name}}</option> <!-- not selected / blank option -->
-                    </select><br>
+                    <div class="col-xs-6">
+                        <h4>Select project</h4>
+                        <div class="input-group">
+                            <span class="input-group-addon">Search:</span>
+                            <input type="text" class="form-control" placeholder="What are you search?" ng-model="search">
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="naglowek in [ 'Name', 'Comment' ]">{{naglowek}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="project in projects | filter : search">
+                                    <td>{{project.Name}}</td>
+                                    <td>{{project.Comment}}</td>
+                                    <td><input type="radio" ng-model="project.Id" name="selectProject">
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                <div class="col-xs-3">
-                    <label for="employeeSelect"> Select free employees: </label><br>
-                    <select name="employeeSelect" id="employeeSelect" ng-model="employees.model" multiple>
-                        <option ng-repeat="employee in employees"value="employee.Id" ng-click="infoEmployee(employee)">{{employee.Name}} {{employee.Surname}}</option>
-                    </select><br>
-                </div>
-                <div class="col-xs-6">
-                <label>Info:</label>
-                    Name: {{infoAboutEmployee.Name}}
-                    Surname: {{infoAboutEmployee.Surname}}
-                    Platfom: {{infoAboutEmployee.Platform}}
-                    Position: {{infoAboutEmployee.Position}}
-                    FTE: {{infoAboutEmployee.FTE}}
-                </div>
+                    <div class="col-xs-6">
+                        <h4>Select employee</h4>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="naglowek in [ 'Name','Surname','Position','FTE' ]">{{naglowek}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="employee in employees" ng-mousemove="infoEmployee(employee.Id)">
+                                    <td>{{employee.Name}}</td>
+                                    <td>{{employee.Surname}}</td>
+                                    <td>{{employee.Position}}</td>
+                                    <td>{{employee.FTE}}</td>
+                                    <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">Add to project</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <label for="infoEmployee">Projects</label><br>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="naglowek in [ 'Project name','Since','Until' ]">{{naglowek}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="employeeProject in employeeProjects">
+                                    <td>{{employeeProject.Name}}</td>
+                                    <td>{{employeeProject.SinceWhen}}</td>
+                                    <td>{{employeeProject.UntilWhen}}</td>
+                                    <td>{{project.Id}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </form>
             </div>
-
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">                              
+            <div class="modal-body">                                
+                <div class="form-group">                                        
+                    Choose a time period:
+                    <input type="datetime" ng-model="since"> to <input type="datetime" ng-model="until">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ng-click="addToProject();" type="button" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
+            </div>
         </div>
     </div>
 </div>

@@ -34,6 +34,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="myModalUpdate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">                              
+                                <div class="modal-body">                                
+                                    <div class="form-group">                                        
+                                        <input type="text" class="form-control" ng-model="Name" placeholder="Name">
+                                        <input type="text" class="form-control" ng-model="Surname" placeholder="Surname">
+                                        <input type="text" class="form-control" ng-model="Platform" placeholder="Platform">
+                                        <input type="text" class="form-control" ng-model="Position" placeholder="Position">
+                                        <input type="text" class="form-control" ng-model="FTE" placeholder="Full-time equivalent"> 
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button ng-click="update();" type="button" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -42,7 +61,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th ng-repeat="naglowek in [ 'Name','Surname','Platform','Position','FTE','Delete' ]">{{naglowek}}</th>
+                <th ng-repeat="naglowek in [ 'Name','Surname','Platform','Position','FTE','Delete','Update' ]">{{naglowek}}</th>
             </tr>
         </thead>
         <tbody>
@@ -53,6 +72,7 @@
                 <td>{{employe.Position}}</td>
                 <td>{{employe.FTE}}</td>
                 <td><button ng-click="delete(employe.Id);" class="btn btn-danger btn-xs">&times;</button></td>
+                <td><button class="btn btn-info btn-xs" data-toggle="modal" ng-model="employe" data-target="#myModalUpdate">update</button></td>
             </tr>
         </tbody>
     </table>

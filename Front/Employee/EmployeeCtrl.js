@@ -69,8 +69,9 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', function
     }
   }
 
+  //zrobić update pracownika
   //  Usuwanie z bazy
-  $scope.delete = function (id) {
+  $scope.delete = function (id) { // zapytać czy ziana w WebApi jest ok
     console.log("próba usunięcia");
     var serviceDelete = EmployeeService.deleteData(id);
     serviceDelete.then(function () {
