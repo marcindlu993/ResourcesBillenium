@@ -26,7 +26,8 @@ app.service("MenagmentProvider", function ($http) { // zapyać czy jest sens w t
     var adressEmployeeProjects = "http://localhost:61148/EmployeeProject/";
     var getEmployees = adressEmployees + "all";
     var getProjects = adressProjects + "all";
-    var getEmployeeProject = adressEmployeeProjects + "findByEmployee/";
+    var getByEmployee = adressEmployeeProjects + "findByEmployee/";
+    var getByProject = adressEmployeeProjects + "findByProject/";
     var addEmployeeProject = adressEmployeeProjects + "add"
 
     this.getDataEmployees = function () {
@@ -36,26 +37,29 @@ app.service("MenagmentProvider", function ($http) { // zapyać czy jest sens w t
         return $http.get(getProjects);
     }
     this.getEmployeeProjects = function (id) {
-        return $http.get(getEmployeeProject + id);
+        return $http.get(getByEmployee + id);
     }
     this.addEmployeeProjectData = function (id) {//sprawdzić
         return $http.get(addEmployeeProject);
     }
+    this.getDataProjectEmployees = function (id) {
+        return $http.get(getByProject + id);
+    }
 });
 
-app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter', function ($scope, MenagmentProvider) {
+app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter','$log', function ($scope, MenagmentProvider) {
     console.log("działa Management");
 
     getAll();
     function getAll() { // zapytać czy jest sens gdy w konrtolerze EmploeeCtrl są te same funkcje
         var serviceCallEmployees = MenagmentProvider.getDataEmployees();
-        var serviceCallProjecs = MenagmentProvider.getDataProjects();
+        var serviceCallProjects = MenagmentProvider.getDataProjects();
         serviceCallEmployees.then(function (d) {
             $scope.employees = d.data;
         }, function (error) {
             $log.error("błąd niewybaczalny");
         },
-            serviceCallProjecs.then(function (k) {
+            serviceCallProjects.then(function (k) {
                 $scope.projects = k.data;
             }, function (error) {
                 $log.error("kolejny niewybaczalny błąd");
@@ -63,22 +67,33 @@ app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter', func
             ))
     }
 
-    $scope.infoEmployee = function (id) { //nie pobira id
+    $scope.infoEmployee = function (id) {
         console.log("działa info o pracowiku");
         var serviceCallEmployeeProjects = MenagmentProvider.getEmployeeProjects(id);
         serviceCallEmployeeProjects.then(function (h) {
             $scope.employeeProjects = h.data;
+            $scope.employeeId = id;
         }, function (error) {
             $log.error("błąd w pobieraniu");
         })
     }
 
-    $scope.addToProject = function() {
+    $scope.infoProject = function (id) {
+        console.log("działa info o projekcie");
+        var serviceCallProjectsData = MenagmentProvider.getDataProjectEmployees(id);
+        serviceCallProjectsData.then(function (w) {
+            $scope.projectsInfo = w.data;
+        }, function (error) {
+            $log.error("błąd pobierania daych projektu");
+        })
+    }
+
+    $scope.addToProject = function () {
         console.log("próba zapisu pracownika do projeku");
         if ($scope.Since) {
             var employeeProject = {
-                "ProjectId" : $scope.project.Id,
-                "EmployeeId" : $scope.employee.Id,
+                "ProjectId" : $scope.projectForEmployee.IdProject,
+                "EmployeeId" : $scope.projectForEmployee.IdEmployee,
                 "SinceWhen" : $scope.SinceWhen,
                 "UntilWen" : $scope.UntilWhen,
             }
@@ -86,7 +101,7 @@ app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter', func
             serviceAddEmployeeProjects.then(function (){
                 console.log("dodawaie do bazy");
             },function (error) {
-                $log.error("nie udało się")
+                log.error("nie udało się");
             })
         }
     }

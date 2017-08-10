@@ -48,6 +48,12 @@ namespace WebApi.Controllers
         {
             return Ok(_employeeProjectService.FindBy(e => e.EmployeeId == id));
         }
+
+        [Route("findByProject/{id}")] // moja funkcja
+        public IHttpActionResult GetByProject(int id)
+        {
+            return Ok(_employeeProjectService.FindBy(e => e.ProjectId == id));
+        }
         // ------------------------- UPDATE -------------------------
         // zaktualizowanie istniejącego rekordu
         //        [Authorize(Roles = "Admin")]

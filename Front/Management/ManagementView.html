@@ -5,12 +5,28 @@
                 <span style="text-align:center; font-size: 30px;">Management</span>
             </div>
             <div class="table-responsive col-sm-12 center-block col-xs-12">
-                <form>
-                    <div class="col-xs-6">
+                <form novalidate>
+                    <div class="col-sm-6">
+                        <h4>Project timesheet</h4>
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr ng-repeat="projectInfo in projectsInfo">
+                                    <td ng-repeat="employee in employees | filter: projectInfo.EmployeeId">
+                                        {{employee.Name}} {{employee.Surname}}
+                                    </td>
+                                    <td>
+                                        {{projectInfo.SinceWhen | date:'yyyy-MMM-dd'}}
+                                    </td>
+                                    <td>
+                                        {{projectInfo.UntilWhen | date:'yyyy-MMM-dd'}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <h4>Select project</h4>
                         <div class="input-group">
-                            <span class="input-group-addon">Search:</span>
-                            <input type="text" class="form-control" placeholder="What are you search?" ng-model="search">
+                            <span class="input-group-addon">Search project:</span>
+                            <input type="text" class="form-control" placeholder="What are you search?" ng-model="searchProject">
                         </div>
                         <table class="table table-hover">
                             <thead>
@@ -19,16 +35,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="project in projects | filter : search">
+                                <tr ng-repeat="project in projects | filter : searchProject">
                                     <td>{{project.Name}}</td>
                                     <td>{{project.Comment}}</td>
-                                    <td><input type="radio" ng-model="project.Id" name="selectProject">
+                                    <td><input type="radio" value="{{project.Id}}" ng-click="infoProject(project.Id)" ng-model="projectForEmployee.IdProject"
+                                            name="selectProject">
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-sm-6">
                         <h4>Select employee</h4>
+                        <div class="input-group">
+                            <span class="input-group-addon">Search employee:</span>
+                            <input type="text" class="form-control" placeholder="What are you search?" ng-model="searchEmployee">
+                        </div>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -36,16 +57,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="employee in employees" ng-mousemove="infoEmployee(employee.Id)">
+                                <tr ng-repeat="employee in employees | filter : searchEmployee">
+                                    <!-- <tr ng-repeat="employee in employees | filter : searchEmployee" ng-mousemove="infoEmployee(employee.Id)"> -->
+
                                     <td>{{employee.Name}}</td>
                                     <td>{{employee.Surname}}</td>
                                     <td>{{employee.Position}}</td>
                                     <td>{{employee.FTE}}</td>
-                                    <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">Add to project</button></td>
+                                    <td>
+                                        <button class="btn btn-info btn-xs" value="{{employee.Id}}" ng-click="infoEmployee(employee.Id)" ng-model="projectForEmployee.IdEmployee"
+                                            data-toggle="modal" data-target="#myModal">Add to project</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <label for="infoEmployee">Projects</label><br>
+                        <!-- <label for="infoEmployee">Projects</label><br>
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -60,7 +86,7 @@
                                     <td>{{project.Id}}</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
                     </div>
                 </form>
             </div>
@@ -69,16 +95,36 @@
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">                              
-            <div class="modal-body">                                
-                <div class="form-group">                                        
-                    Choose a time period:
-                    <input type="datetime" ng-model="since"> to <input type="datetime" ng-model="until">
-                </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <p ng-repeat="employee in employees | filter : employeeId">
+                    Timesheet of {{employee.Name}} {{employee.Surname}}
+                </p>
+                <table class="table table-hover">
+                    <tbody>
+                        <tr ng-repeat="employeeProject in employeeProjects">
+                            <!-- <td ng-repeat="employee in employees | filter: employeeProject.EmployeeId">
+                                {{employee.Name}} {{employee.Surname}}
+                            </td> -->
+                            <td>
+                                {{employeeProject.SinceWhen | date:'yyyy-MMM-dd'}}
+                            </td>
+                            <td>
+                                {{employeeProject.UntilWhen | date:'yyyy-MMM-dd'}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" ng-model="ProjectId" value={{projectForEmployee.IdProject}} placeholder="Name">
+                <input type="hidden" class="form-control" ng-model="EmployeeId" value={{projectForEmployee.IdEmployee}} placeholder="Surname">
+                <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when?">
+                <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when?">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button ng-click="addToProject();" type="button" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
+                <button ng-click="addToProject()" type="submit" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

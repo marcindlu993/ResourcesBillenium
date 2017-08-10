@@ -29,7 +29,7 @@ app.service("EmployeeService", function ($http) {
 
 
 
-app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', function ($scope, EmployeeService) {
+app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', '$log', function ($scope, EmployeeService, $log) {
   $scope.zm = "ffsdfsdfs";
   console.log("działa Employee");
 
