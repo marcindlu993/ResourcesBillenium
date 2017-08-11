@@ -5,7 +5,7 @@
                 <span style="text-align:center; font-size: 30px;">Management</span>
             </div>
             <div class="table-responsive col-sm-12 center-block col-xs-12">
-                <form novalidate>
+                <form validate>
                     <div class="col-sm-6">
                         <h4>Project timesheet</h4>
                         <table class="table table-hover">
@@ -39,7 +39,7 @@
                                     <td>{{project.Name}}</td>
                                     <td>{{project.Comment}}</td>
                                     <td><input type="radio" value="{{project.Id}}" ng-click="infoProject(project.Id)" ng-model="projectForEmployee.IdProject"
-                                            name="selectProject">
+                                            name="selectProject" ng-required="!projectForEmployee.IdProject">
                                 </tr>
                             </tbody>
                         </table>
@@ -88,43 +88,43 @@
                             </tbody>
                         </table> -->
                     </div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p ng-repeat="employee in employees | filter : employeeId">
+                                        Timesheet of {{employee.Name}} {{employee.Surname}}
+                                    </p>
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr ng-repeat="employeeProject in employeeProjects">
+                                                <td ng-repeat="project in projects | filter : {Id: employeeProject.ProjectId}">
+                                                    {{project.Name}}
+                                                </td>
+                                                <td>
+                                                    {{employeeProject.SinceWhen | date:'yyyy-MMM-dd'}}
+                                                </td>
+                                                <td>
+                                                    {{employeeProject.UntilWhen | date:'yyyy-MMM-dd'}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" ng-model="ProjectId" value={{projectForEmployee.IdProject}} placeholder="Name">
+                                    <input type="hidden" class="form-control" ng-model="EmployeeId" value={{projectForEmployee.IdEmployee}} placeholder="Surname">
+                                    <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when?">
+                                    <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when?">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button ng-click="addToProject()" type="submit" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <p ng-repeat="employee in employees | filter : employeeId">
-                    Timesheet of {{employee.Name}} {{employee.Surname}}
-                </p>
-                <table class="table table-hover">
-                    <tbody>
-                        <tr ng-repeat="employeeProject in employeeProjects">
-                            <!-- <td ng-repeat="employee in employees | filter: employeeProject.EmployeeId">
-                                {{employee.Name}} {{employee.Surname}}
-                            </td> -->
-                            <td>
-                                {{employeeProject.SinceWhen | date:'yyyy-MMM-dd'}}
-                            </td>
-                            <td>
-                                {{employeeProject.UntilWhen | date:'yyyy-MMM-dd'}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="form-group">
-                <input type="hidden" class="form-control" ng-model="ProjectId" value={{projectForEmployee.IdProject}} placeholder="Name">
-                <input type="hidden" class="form-control" ng-model="EmployeeId" value={{projectForEmployee.IdEmployee}} placeholder="Surname">
-                <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when?">
-                <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when?">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button ng-click="addToProject()" type="submit" class="btn btn-primary btn-default" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

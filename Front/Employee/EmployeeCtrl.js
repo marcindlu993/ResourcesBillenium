@@ -15,6 +15,7 @@ app.service("EmployeeService", function ($http) {
   var getFromUrl = address + "all";
   var postToUrl = address + "add";
   var deleteToUrl = address + "delete/";
+  var updateToUrl = address + "update";
 
   this.getData = function () {
     return $http.get(getFromUrl);
@@ -24,6 +25,9 @@ app.service("EmployeeService", function ($http) {
   }
   this.deleteData = function (id) {
     return $http.delete(deleteToUrl + id);
+  }
+  this.putData = function () {
+    return $http.put(updateToUrl);
   }
 });
 
@@ -69,7 +73,26 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', '$log', 
     }
   }
 
-  //zrobić update pracownika
+  //zrobić update pracownika, nie działa
+    $scope.update = function () {
+    console.log("próba update do bazy");
+    if ($scope.Name) {
+      var product = {
+        "Name": $scope.Name,
+        "Surname": $scope.Surname,
+        "Platform": $scope.Platform,
+        "Position": $scope.Position,
+        "FTE": $scope.FTE,
+      }
+      var servicePut = EmployeeService.putData(product);
+      servicePut.then(function () {
+        getAll();
+        console.log("dodawanie do bazy");
+      }, function (error) {
+        $log.error("nie udało się")
+      })
+    }
+  }
   //  Usuwanie z bazy
   $scope.delete = function (id) { // zapytać czy ziana w WebApi jest ok
     console.log("próba usunięcia");
