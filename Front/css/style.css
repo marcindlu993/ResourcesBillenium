@@ -14,6 +14,7 @@
         border-color: #ee5b00;
     }
     
-.dragdrop-container{
-    border: 1px solid #909090;
+.border-container{
+    border: 1px solid #D3D3D3;
+    margin-bottom: 5px;
 }

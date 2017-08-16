@@ -26,15 +26,14 @@ app.service("EmployeeService", function ($http) {
   this.deleteData = function (id) {
     return $http.delete(deleteToUrl + id);
   }
-  this.putData = function () {
-    return $http.put(updateToUrl);
+  this.putData = function (value) {
+    return $http.put(updateToUrl, value);
   }
 });
 
 
 
 app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', '$log', function ($scope, EmployeeService, $log) {
-  $scope.zm = "ffsdfsdfs";
   console.log("działa Employee");
 
   // Pobranie rekordów z bazy
@@ -94,7 +93,7 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', '$log', 
     }
   }
   //  Usuwanie z bazy
-  $scope.delete = function (id) { // zapytać czy ziana w WebApi jest ok
+  $scope.delete = function (id) {
     console.log("próba usunięcia");
     var serviceDelete = EmployeeService.deleteData(id);
     serviceDelete.then(function () {

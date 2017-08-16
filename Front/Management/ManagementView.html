@@ -15,10 +15,10 @@
                                         {{employee.Name}} {{employee.Surname}}
                                     </td>
                                     <td>
-                                        {{projectInfo.SinceWhen | date:'yyyy-MMM-dd'}}
+                                        {{projectInfo.SinceWhen | date:'yyyy-MM-dd'}}
                                     </td>
                                     <td>
-                                        {{projectInfo.UntilWhen | date:'yyyy-MMM-dd'}}
+                                        {{projectInfo.UntilWhen | date:'yyyy-MM-dd'}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -38,7 +38,7 @@
                                 <tr ng-repeat="project in projects | filter : searchProject">
                                     <td>{{project.Name}}</td>
                                     <td>{{project.Comment}}</td>
-                                    <td><input type="radio" value="{{project.Id}}" ng-click="infoProject(project.Id)" ng-model="projectForEmployee.IdProject"
+                                    <td><input type="radio" ng-click="infoProject(project.Id)"
                                             name="selectProject" ng-required="!projectForEmployee.IdProject">
                                 </tr>
                             </tbody>
@@ -58,35 +58,17 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="employee in employees | filter : searchEmployee">
-                                    <!-- <tr ng-repeat="employee in employees | filter : searchEmployee" ng-mousemove="infoEmployee(employee.Id)"> -->
-
                                     <td>{{employee.Name}}</td>
                                     <td>{{employee.Surname}}</td>
                                     <td>{{employee.Position}}</td>
                                     <td>{{employee.FTE}}</td>
                                     <td>
-                                        <button class="btn btn-info btn-xs" value="{{employee.Id}}" ng-click="infoEmployee(employee.Id)" ng-model="projectForEmployee.IdEmployee"
+                                        <button class="btn btn-info btn-xs" value="{{employee.Id}}" ng-click="infoEmployee(employee.Id)"
                                             data-toggle="modal" data-target="#myModal">Add to project</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- <label for="infoEmployee">Projects</label><br>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th ng-repeat="naglowek in [ 'Project name','Since','Until' ]">{{naglowek}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="employeeProject in employeeProjects">
-                                    <td>{{employeeProject.Name}}</td>
-                                    <td>{{employeeProject.SinceWhen}}</td>
-                                    <td>{{employeeProject.UntilWhen}}</td>
-                                    <td>{{project.Id}}</td>
-                                </tr>
-                            </tbody>
-                        </table> -->
                     </div>
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -102,18 +84,16 @@
                                                     {{project.Name}}
                                                 </td>
                                                 <td>
-                                                    {{employeeProject.SinceWhen | date:'yyyy-MMM-dd'}}
+                                                    {{employeeProject.SinceWhen | date:'yyyy-MM-dd'}}
                                                 </td>
                                                 <td>
-                                                    {{employeeProject.UntilWhen | date:'yyyy-MMM-dd'}}
+                                                    {{employeeProject.UntilWhen | date:'yyyy-MM-dd'}}
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" ng-model="ProjectId" value={{projectForEmployee.IdProject}} placeholder="Name">
-                                    <input type="hidden" class="form-control" ng-model="EmployeeId" value={{projectForEmployee.IdEmployee}} placeholder="Surname">
                                     <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when?">
                                     <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when?">
                                 </div>

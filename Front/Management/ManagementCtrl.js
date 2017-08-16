@@ -3,9 +3,9 @@
 var app = angular.module('myApp.ManagementView', ['ngRoute']);
 
 app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/Management', {
-        templateUrl: 'Management/ManagementView.html',
-        controller: 'ManagementCtrl',
+    $routeProvider.when('/Timesheet', {
+        templateUrl: 'Timesheet/TimesheetView.html',
+        controller: 'ManagementCtrl'
         // resolve: {
         //     auth: ["$q", "authenticationSvc", function($q, authenticationSvc) {
         //     var userInfo = authenticationSvc.getUserInfo();
@@ -17,10 +17,14 @@ app.config(['$routeProvider', function ($routeProvider) {
         //         }
         //     }]
         // }
+    }),
+    $routeProvider.when('/Management', {
+        templateUrl: 'Management/ManagementView.html',
+        controller: 'ManagementCtrl'
     });
 }])
 
-app.service("MenagmentProvider", function ($http) { // zapyać czy jest sens w takich adresach
+app.service("ManagementProvider", function ($http) { // zapyać czy jest sens w takich adresach
     var adressEmployees = "http://localhost:61148/Employee/";
     var adressProjects = "http://localhost:61148/Project/";
     var adressEmployeeProjects = "http://localhost:61148/EmployeeProject/";
@@ -39,37 +43,37 @@ app.service("MenagmentProvider", function ($http) { // zapyać czy jest sens w t
     this.getEmployeeProjects = function (id) {
         return $http.get(getByEmployee + id);
     }
-    this.addEmployeeProjectData = function (id) {//sprawdzić
-        return $http.get(addEmployeeProject);
+    this.addEmployeeProjectData = function (value) {//sprawdzić
+        return $http.post(addEmployeeProject, value);
     }
     this.getDataProjectEmployees = function (id) {
         return $http.get(getByProject + id);
     }
 });
 
-app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter','$log', function ($scope, MenagmentProvider) {
+app.controller('ManagementCtrl', ['$scope', 'ManagementProvider', '$filter', '$log', function ($scope, ManagementProvider, $log) {
     console.log("działa Management");
 
     getAll();
     function getAll() { // zapytać czy jest sens gdy w konrtolerze EmploeeCtrl są te same funkcje
-        var serviceCallEmployees = MenagmentProvider.getDataEmployees();
-        var serviceCallProjects = MenagmentProvider.getDataProjects();
+        var serviceCallEmployees = ManagementProvider.getDataEmployees();
+        var serviceCallProjects = ManagementProvider.getDataProjects();
         serviceCallEmployees.then(function (d) {
             $scope.employees = d.data;
         }, function (error) {
-            $log.error("błąd niewybaczalny");
+            $log.error("błąd");
         },
             serviceCallProjects.then(function (k) {
                 $scope.projects = k.data;
             }, function (error) {
-                $log.error("kolejny niewybaczalny błąd");
+                $log.error("błąd");
             }
             ))
     }
 
     $scope.infoEmployee = function (id) {
         console.log("działa info o pracowiku");
-        var serviceCallEmployeeProjects = MenagmentProvider.getEmployeeProjects(id);
+        var serviceCallEmployeeProjects = ManagementProvider.getEmployeeProjects(id);
         serviceCallEmployeeProjects.then(function (h) {
             $scope.employeeProjects = h.data;
             $scope.employeeId = id;
@@ -80,9 +84,10 @@ app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter','$log
 
     $scope.infoProject = function (id) {
         console.log("działa info o projekcie");
-        var serviceCallProjectsData = MenagmentProvider.getDataProjectEmployees(id);
+        var serviceCallProjectsData = ManagementProvider.getDataProjectEmployees(id);
         serviceCallProjectsData.then(function (w) {
             $scope.projectsInfo = w.data;
+            $scope.projectId = id;
         }, function (error) {
             $log.error("błąd pobierania daych projektu");
         })
@@ -90,14 +95,14 @@ app.controller('ManagementCtrl', ['$scope', 'MenagmentProvider', '$filter','$log
 
     $scope.addToProject = function () {
         console.log("próba zapisu pracownika do projeku");
-        if ($scope.Since) {
+        if ($scope.SinceWhen) {
             var employeeProject = {
-                "ProjectId" : $scope.projectForEmployee.IdProject,
-                "EmployeeId" : $scope.projectForEmployee.IdEmployee,
-                "SinceWhen" : $scope.SinceWhen,
-                "UntilWen" : $scope.UntilWhen,
+                "ProjectId" : $scope.projectId,
+                "EmployeeId" : $scope.employeeId,
+                "SinceWhen" : $scope.SinceWhen + "T00:00:00",
+                "UntilWhen" : $scope.UntilWhen + "T00:00:00",
             }
-            var serviceAddEmployeeProjects = MenagmentProvider.addEmployeeProject(employeeProject);
+            var serviceAddEmployeeProjects = ManagementProvider.addEmployeeProjectData(employeeProject);
             serviceAddEmployeeProjects.then(function (){
                 console.log("dodawaie do bazy");
             },function (error) {
