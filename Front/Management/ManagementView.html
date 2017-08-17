@@ -20,6 +20,9 @@
                                     <td>
                                         {{projectInfo.UntilWhen | date:'yyyy-MM-dd'}}
                                     </td>
+                                    <td>
+                                        <button class="button btn-danger btn-xs" ng-click="deleteFromProject(projectInfo.Id)">Remove</button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -94,8 +97,8 @@
                                     </table>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when?">
-                                    <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when?">
+                                    <input type="text" class="form-control" ng-model="SinceWhen" placeholder="Since when? Date format: yyyy.MM.dd">
+                                    <input type="text" class="form-control" ng-model="UntilWhen" placeholder="Until when? Date format: yyyy.MM.dd">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -18,10 +18,10 @@ app.config(['$routeProvider', function ($routeProvider) {
         //     }]
         // }
     }),
-    $routeProvider.when('/Management', {
-        templateUrl: 'Management/ManagementView.html',
-        controller: 'ManagementCtrl'
-    });
+        $routeProvider.when('/Management', {
+            templateUrl: 'Management/ManagementView.html',
+            controller: 'ManagementCtrl'
+        });
 }])
 
 app.service("ManagementProvider", function ($http) { // zapyać czy jest sens w takich adresach
@@ -33,6 +33,8 @@ app.service("ManagementProvider", function ($http) { // zapyać czy jest sens w 
     var getByEmployee = adressEmployeeProjects + "findByEmployee/";
     var getByProject = adressEmployeeProjects + "findByProject/";
     var addEmployeeProject = adressEmployeeProjects + "add"
+    var deleteEmployeeProject = adressEmployeeProjects + "delete/"
+    var getProjectEmployee = adressEmployeeProjects + "all";
 
     this.getDataEmployees = function () {
         return $http.get(getEmployees);
@@ -49,6 +51,12 @@ app.service("ManagementProvider", function ($http) { // zapyać czy jest sens w 
     this.getDataProjectEmployees = function (id) {
         return $http.get(getByProject + id);
     }
+    this.deleteDataProjectEmployees = function (id) {
+        return $http.delete(deleteEmployeeProject + id);
+    }
+    this.getDataProjectsEmployees = function () {
+        return $http.get(getProjectEmployee);
+    }
 });
 
 app.controller('ManagementCtrl', ['$scope', 'ManagementProvider', '$filter', '$log', function ($scope, ManagementProvider, $log) {
@@ -58,17 +66,28 @@ app.controller('ManagementCtrl', ['$scope', 'ManagementProvider', '$filter', '$l
     function getAll() { // zapytać czy jest sens gdy w konrtolerze EmploeeCtrl są te same funkcje
         var serviceCallEmployees = ManagementProvider.getDataEmployees();
         var serviceCallProjects = ManagementProvider.getDataProjects();
+        var serviceCallProjectsEmployees = ManagementProvider.getDataProjectsEmployees();
         serviceCallEmployees.then(function (d) {
             $scope.employees = d.data;
         }, function (error) {
             $log.error("błąd");
-        },
+        }),
             serviceCallProjects.then(function (k) {
                 $scope.projects = k.data;
             }, function (error) {
                 $log.error("błąd");
-            }
-            ))
+            }),
+            serviceCallProjectsEmployees.then(function (s) {
+                var projectsEmployees = s.data;
+                projectsEmployees.forEach(elem => {
+                    var dateSince = moment(elem.SinceWhen);
+                    var dateUntil = moment(elem.UntilWhen);
+                    elem.day = moment.duration(dateUntil.diff(dateSince)).asDays();
+                });
+                $scope.projectsEmployees;
+            }, function (error) {
+                $log.error("błąd");
+            })
     }
 
     $scope.infoEmployee = function (id) {
@@ -97,17 +116,25 @@ app.controller('ManagementCtrl', ['$scope', 'ManagementProvider', '$filter', '$l
         console.log("próba zapisu pracownika do projeku");
         if ($scope.SinceWhen) {
             var employeeProject = {
-                "ProjectId" : $scope.projectId,
-                "EmployeeId" : $scope.employeeId,
-                "SinceWhen" : $scope.SinceWhen + "T00:00:00",
-                "UntilWhen" : $scope.UntilWhen + "T00:00:00",
+                "ProjectId": $scope.projectId,
+                "EmployeeId": $scope.employeeId,
+                "SinceWhen": $scope.SinceWhen + "T00:00:00",
+                "UntilWhen": $scope.UntilWhen + "T00:00:00",
             }
             var serviceAddEmployeeProjects = ManagementProvider.addEmployeeProjectData(employeeProject);
-            serviceAddEmployeeProjects.then(function (){
+            serviceAddEmployeeProjects.then(function () {
                 console.log("dodawaie do bazy");
-            },function (error) {
+            }, function (error) {
                 log.error("nie udało się");
             })
         }
     }
-}])
+
+    $scope.deleteFromProject = function (id) {
+        console.log("próba usunięcia pracownika z projektu");
+        var serviceDelete = ManagementProvider.deleteDataProjectEmployees(id);
+        serviceDelete.then(function () {
+            console.log("usunięto z bazy");
+        })
+    }
+}]);

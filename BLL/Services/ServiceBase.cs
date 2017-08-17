@@ -19,7 +19,7 @@ namespace BLL.Services
         private IMapper _mapper;
         // private IRepository<ActionFolders> repository;
 
-        public ServiceBase(IRepository<T> repository, IMapper mapper)
+        protected ServiceBase(IRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -39,7 +39,7 @@ namespace BLL.Services
             _repository.Save();
         }
 
-        public void Delete(M entityDto)
+        public virtual void Delete(M entityDto)
         {
             T model = _mapper.Map<M, T>(entityDto);
             _repository.Delete(model.Id);
