@@ -82,9 +82,18 @@ app.controller('ManagementCtrl', ['$scope', 'ManagementProvider', '$filter', '$l
                 projectsEmployees.forEach(elem => {
                     var dateSince = moment(elem.SinceWhen);
                     var dateUntil = moment(elem.UntilWhen);
-                    elem.day = moment.duration(dateUntil.diff(dateSince)).asDays();
+                    var dateNow = moment();
+                    var dateOne = moment.duration(dateNow.diff(dateSince)).asDays();
+                    var dateTwo = moment.duration(dateUntil.diff(dateSince)).asDays(); 
+                    var progressDaysPercent = Math.floor(dateOne / dateTwo * 100);
+                    if (progressDaysPercent > 100) {progressDaysPercent = 100;}
+                    elem.progressDaysPercent = progressDaysPercent;
+                    var progressDays = Math.floor(dateTwo - dateOne);
+                    if (progressDays <=0 ) {progressDays = "End";}
+                    else {progressDays = "To the end:" + progressDays + "days"};
+                    elem.progressDays = progressDays;
                 });
-                $scope.projectsEmployees;
+                $scope.projectsEmployees = projectsEmployees;
             }, function (error) {
                 $log.error("błąd");
             })

@@ -41,7 +41,7 @@ app.controller('EmployeeCtrl', ['$scope', 'EmployeeService', '$filter', '$log', 
   function getAll() {
     var serviceCall = EmployeeService.getData();
     serviceCall.then(function (d) {
-      $scope.employee = d.data;
+      $scope.employees = d.data;
     }, function (error) {
       $log.error("Ups coś poszło nie tak")
     })

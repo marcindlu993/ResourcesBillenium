@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.Services.EmployeeProjectService;
+using Core.DTO.EmployeeProject;
 using Core.DTO.Project;
 using DAL.Models;
 using DAL.Repositories;

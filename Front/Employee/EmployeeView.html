@@ -65,13 +65,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="employe in employee | filter : search">                                
-                <td>{{employe.Name}}</td>
-                <td>{{employe.Surname}}</td>
-                <td>{{employe.Platform}}</td>
-                <td>{{employe.Position}}</td>
-                <td>{{employe.FTE}}</td>
-                <td><button ng-click="delete(employe.Id);" class="btn btn-danger btn-xs">&times;</button></td>
+            <tr ng-repeat="employee in employees | filter : search">                                
+                <td>{{employee.Name}}</td>
+                <td>{{employee.Surname}}</td>
+                <td>{{employee.Platform}}</td>
+                <td>{{employee.Position}}</td>
+                <td>{{employee.FTE}}</td>
+                <td><button ng-click="delete(employsee.Id);" class="btn btn-danger btn-xs">&times;</button></td>
                 <td><button class="btn btn-info btn-xs" data-toggle="modal" ng-model="employe" data-target="#myModalUpdate">update</button></td>
             </tr>
         </tbody>

@@ -34,11 +34,12 @@ app.controller('UsersCtrl', ['$scope', 'UsersService', '$filter', function($scop
         getAll();
         function getAll(){
           var serviceCall = UsersService.getData();
-          serviceCall.then(function (d){
-            $scope.users = d.data;
-          }, function(error){
-            $log.error("Ups coś poszło nie tak")
-          })
+            serviceCall.then(function(d) {
+                    $scope.users = d.data;
+                },
+                function(error) {
+                    $log.error("Ups coś poszło nie tak");
+                });
         }
          
         $scope.metoda = function () {

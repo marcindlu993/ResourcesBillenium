@@ -1,16 +1,19 @@
+.header_text {
+    background-color: #BCBCBC;
+}
 .center-block{
         float: none;
     }
     .btn-primary{
-        background-color: #ff6c00;
+        background-color: #767676;
         border-color: #ee5b00;
     }
     .btn-primary:hover{
-        background-color: #ee5b00;
+        background-color: #767676;
         border-color: #ee5b00;
     }
     .btn-primary:click{
-        background-color: #ee5b00;
+        background-color: #767676;
         border-color: #ee5b00;
     }
     
@@ -18,4 +21,8 @@
     border: 1px solid #D3D3D3;
     margin-bottom: 5px;
     padding: 5px;
+}
+.progress{
+    margin-bottom: 1px;
+    padding: 0px;
 }

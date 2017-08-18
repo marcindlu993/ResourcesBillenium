@@ -1,17 +1,23 @@
 <div class="row">
     <div class="col-sm-10 center-block">
         <div class="row border-container" ng-repeat="project in projects">
-            <div class="col-sm-3">
+            <div class="col-sm-5">
                 <p>Name: {{project.Name}}</p>
                 <p>Descritpion: {{project.Comment}}</p>
             </div>
-            <div ng-repeat="projectEmployee in projectsEmployees | filter : {ProjectId : project.Id}">
-                <div class="col-sm-12" ng-repeat="employee in employees | filter : {Id : projectEmployee.EmployeeId}">
+            <div class="col-sm-12" ng-repeat="projectEmployee in projectsEmployees | filter : {ProjectId : project.Id}">
+                <div class="col-sm-3" ng-repeat="employee in employees | filter : {Id : projectEmployee.EmployeeId}">
                     {{employee.Name}} {{employee.Surname}}
                 </div>
-                <div class="progress" style="width: 100%;">
-                    <div class="progress-bar" style="width: 100%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress col-sm-7">
+                    <div class="progress-bar" style="width:{{projectEmployee.progressDaysPercent}}%; text-align:right;">
+                        {{projectEmployee.progressDays}}</div>
+                    <div class="progress-bar progress-bar-warning" style="width:{{100 - projectEmployee.progressDaysPercent}}%"></div>
+                </div>
+                <div class="col-lg-2">
+                    {{projectEmployee.UntilWhen | date : short}}
                 </div>
             </div>
         </div>
     </div>
+</div>
